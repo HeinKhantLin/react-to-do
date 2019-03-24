@@ -1,28 +1,100 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import Header from './Header';
+import ToDo from './ToDo';
+import Done from './Done';
+import Add from './Add';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+
+class App extends React.Component {
+  
+  autoid = 4;
+  
+  state = { 
+
+    tasks : [
+          { id: 1, subject: 'Milk', status: 0},
+          { id: 2, subject: 'Bread', status: 1},
+          { id: 3, subject: 'Apple', status: 0},
+          { id: 4, subject: 'Orange', status: 1},  
+    
+    ]
   }
+
+  
+
+  add = subject => {
+    let newTask = { id: ++this.autoid, subject, status: 0};
+
+    this.setState({
+      tasks : [
+        ...this.state.tasks, newTask
+      ]
+    })
+  }
+
+
+  remove = id => {
+    this.setState({
+     tasks : this.state.tasks.filter(item => item.id !== id)
+    });
+  }
+
+
+  done = id => {
+    this.setState({
+      tasks : this.state.tasks.map(item => {
+        if(item.id === id) item.status = 1;
+        return item;
+      })
+    })
+  }
+
+  undo = id => {
+    this.setState({
+      tasks : this.state.tasks.map(item => {
+        if(item.id === id) item.status = 0;
+        return item;
+      })
+    })
+  }
+
+  clear = id => {
+    this.setState({
+      tasks: this.state.tasks.filter(item => item.status === 0)
+    })
+  }
+
+   render(){
+    return(
+      <div>
+      <Header count={this.state.tasks.filter(task => {
+        return task.status === 0;
+      }).length} />
+
+        <Add add={this.add}/>
+
+        <ToDo 
+          done={this.done} 
+          remove={this.remove} 
+          tasks={this.state.tasks.filter(task => {
+            return task.status === 0;
+          })}
+        />
+        <hr/>
+
+        <Done 
+          undo={this.undo} 
+          remove={this.remove} 
+          tasks={this.state.tasks.filter(task => {
+            return task.status === 1;
+          })}
+        />
+      
+        <a href="#" onClick={this.clear}>Clear All</a>
+
+      </div>
+    )
+   }
 }
 
 export default App;
