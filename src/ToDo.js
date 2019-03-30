@@ -1,10 +1,12 @@
 import React from 'react';
 import Item from './Item';
 
+import List from '@material-ui/core/List';
+
 class ToDo extends React.Component{
   render(){
     return(
-      <ul>
+      <List>
         {this.props.tasks.map(task =>  {
           return <Item 
                       key={task.id} 
@@ -13,7 +15,7 @@ class ToDo extends React.Component{
                       remove={this.props.remove}
                 />
         })}
-      </ul>
+      </List>
     )
   }
 }

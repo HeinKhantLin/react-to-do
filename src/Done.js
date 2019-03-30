@@ -1,10 +1,16 @@
 import React from 'react';
 import Item from './Item';
 
+import List from '@material-ui/core/List';
+import ListSubheader from '@material-ui/core/ListSubheader';
+
 class Done extends React.Component{
+
+  doneTitle = <ListSubheader>Done</ListSubheader>;
+
   render(){
     return(
-      <ul>
+      <List subheader={this.doneTitle}>
         {this.props.tasks.map(task =>  {
           return <Item 
                       key={task.id} 
@@ -13,7 +19,7 @@ class Done extends React.Component{
                       remove={this.props.remove}
                  />
         })}
-      </ul>
+      </List>
     )
   }
 }

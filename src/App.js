@@ -3,6 +3,7 @@ import Header from './Header';
 import ToDo from './ToDo';
 import Done from './Done';
 import Add from './Add';
+import Divider from '@material-ui/core/Divider';
 
 
 class App extends React.Component {
@@ -67,31 +68,31 @@ class App extends React.Component {
    render(){
     return(
       <div>
-      <Header count={this.state.tasks.filter(task => {
-        return task.status === 0;
-      }).length} />
+        <Header count={this.state.tasks.filter(task => {
+          return task.status === 0;
+        }).length} clear={this.clear}/>
 
-        <Add add={this.add}/>
+        <div style={{margin:20}}>
 
-        <ToDo 
-          done={this.done} 
-          remove={this.remove} 
-          tasks={this.state.tasks.filter(task => {
-            return task.status === 0;
-          })}
-        />
-        <hr/>
+            <Add add={this.add}/>
 
-        <Done 
-          undo={this.undo} 
-          remove={this.remove} 
-          tasks={this.state.tasks.filter(task => {
-            return task.status === 1;
-          })}
-        />
-      
-        <a href="#" onClick={this.clear}>Clear All</a>
+            <ToDo 
+              done={this.done} 
+              remove={this.remove} 
+              tasks={this.state.tasks.filter(task => {
+                return task.status === 0;
+              })}
+            />
+            <Divider/>
 
+            <Done 
+              undo={this.undo} 
+              remove={this.remove} 
+              tasks={this.state.tasks.filter(task => {
+                return task.status === 1;
+              })}
+            />
+        </div>
       </div>
     )
    }
